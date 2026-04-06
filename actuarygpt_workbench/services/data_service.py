@@ -5,16 +5,14 @@ from typing import Dict, List, Tuple
 
 import pandas as pd
 
-from actuarygpt_workbench.utils.data_utils import standardize_columns
-
 
 def read_uploaded_file(file) -> pd.DataFrame:
     name = file.name.lower()
     content = file.read()
     if name.endswith(".csv"):
-        return standardize_columns(pd.read_csv(io.BytesIO(content)))
+        return pd.read_csv(io.BytesIO(content))
     if name.endswith(".xlsx") or name.endswith(".xls"):
-        return standardize_columns(pd.read_excel(io.BytesIO(content)))
+        return pd.read_excel(io.BytesIO(content))
     raise ValueError("Unsupported file type. Use CSV or XLSX.")
 
 
