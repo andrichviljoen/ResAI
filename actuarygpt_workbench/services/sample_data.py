@@ -4,8 +4,6 @@ from typing import Dict, List
 
 import pandas as pd
 
-from actuarygpt_workbench.utils.data_utils import standardize_columns
-
 
 SAMPLE_DATASETS = ["genins", "raa"]
 
@@ -20,7 +18,8 @@ def load_sample(name: str) -> pd.DataFrame:
     tri = cl.load_sample(name)
     # convert to long dataframe with origin/development/value
     frame = tri.to_frame(origin_as_datetime=False).reset_index()
-    frame = standardize_columns(frame)
+    cols = [c.lower() for c in frame.columns]
+    frame.columns = cols
 
     # normalize likely columns
     origin_col = "origin" if "origin" in frame.columns else frame.columns[0]
